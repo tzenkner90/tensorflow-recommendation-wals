@@ -84,12 +84,13 @@ elif [[ ${TRAIN_JOB} == "train" ]]; then
   ARGS="--gcs-bucket $BUCKET --train-file ${DATA_FILE} --verbose-logging $@"
 
   gcloud ml-engine jobs submit training ${JOB_NAME} \
+    --python-version 2.7 \
+    --runtime-version 1.15 \
     --region $REGION \
     --scale-tier=CUSTOM \
     --job-dir ${BUCKET}/jobs/${JOB_NAME} \
     --module-name trainer.task \
     --package-path trainer \
-    --runtime-version 1.15 \
     --master-machine-type n1-standard-4 \
     --config trainer/config/config_train.json \
     -- \
@@ -109,12 +110,13 @@ elif [[ $TRAIN_JOB == "tune" ]]; then
   done
 
   gcloud ml-engine jobs submit training ${JOB_NAME} \
+    --python-version 2.7 \
+    --runtime-version 1.15 \
     --region ${REGION} \
     --scale-tier=CUSTOM \
     --job-dir ${BUCKET}/jobs/${JOB_NAME} \
     --module-name trainer.task \
     --package-path trainer \
-    --runtime-version 1.15 \
     --master-machine-type n1-standard-4 \
     --runtime-version $RUNTIME_VERSION \
     --config ${CONFIG_TUNE} \
