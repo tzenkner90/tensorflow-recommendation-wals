@@ -62,7 +62,6 @@ TRAIN_JOB="$1"
 BUCKET="$2"
 DATA_FILE="$3"
 JOB_NAME=wals_ml_${TRAIN_JOB}_${TIME}
-RUNTIME_VERSION="1.14"
 
 # add additional args
 shift; shift; shift
@@ -90,8 +89,8 @@ elif [[ ${TRAIN_JOB} == "train" ]]; then
     --job-dir ${BUCKET}/jobs/${JOB_NAME} \
     --module-name trainer.task \
     --package-path trainer \
+    --runtime-version 1.15 \
     --master-machine-type n1-standard-4 \
-    --runtime-version $RUNTIME_VERSION \
     --config trainer/config/config_train.json \
     -- \
     ${ARGS}
@@ -115,6 +114,7 @@ elif [[ $TRAIN_JOB == "tune" ]]; then
     --job-dir ${BUCKET}/jobs/${JOB_NAME} \
     --module-name trainer.task \
     --package-path trainer \
+    --runtime-version 1.15 \
     --master-machine-type n1-standard-4 \
     --runtime-version $RUNTIME_VERSION \
     --config ${CONFIG_TUNE} \
